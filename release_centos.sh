@@ -1,5 +1,4 @@
 # 1. copy the previous version of the compiler to crystal-linux
-# 2. For the first run, comment any reference to llvm_bin from config/software/crystal.rb
 rvmsudo bash
 cd /vagrant
 scl enable devtoolset-1.1 bash
