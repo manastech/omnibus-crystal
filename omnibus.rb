@@ -48,3 +48,5 @@ build_retries 0
 # ------------------------------
 # software_gems ['omnibus-software', 'my-company-software']
 # local_software_dirs ['/path/to/local/software']
+
+append_timestamp false

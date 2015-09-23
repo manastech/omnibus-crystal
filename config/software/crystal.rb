@@ -16,7 +16,7 @@ env = with_standard_compiler_flags(with_embedded_path(
 ))
 env["CFLAGS"] << " -fPIC"
 
-llvm_bin = Omnibus::Software.load(project, "llvm_bin")
+llvm_bin = Omnibus::Software.load(project, "llvm_bin", project.manifest)
 output_bin = "#{install_dir}/embedded/bin/crystal"
 env["PATH"] = "#{llvm_bin.project_dir}/bin:#{project_dir}/deps:#{env["PATH"]}"
 
