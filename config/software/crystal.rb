@@ -1,8 +1,4 @@
-CRYSTAL_VERSION = "0.8.0"
-
 name "crystal"
-default_version CRYSTAL_VERSION
-
 source git: "https://github.com/manastech/crystal"
 
 dependency "pcre"
@@ -28,7 +24,11 @@ else
 end
 
 build do
-  command "git checkout #{CRYSTAL_VERSION}", cwd: project_dir
+  command "git checkout #{version} --", cwd: project_dir
+
+  version "master" do
+    command "git pull"
+  end
 
   mkdir "#{project_dir}/deps"
   command "make llvm_ext", env: env
