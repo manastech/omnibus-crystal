@@ -1,8 +1,4 @@
-CRYSTAL_VERSION = "0.8.0"
-
 name "crystal"
-default_version CRYSTAL_VERSION
-
 source git: "https://github.com/manastech/crystal"
 
 dependency "pcre"
@@ -16,7 +12,8 @@ env = with_standard_compiler_flags(with_embedded_path(
 ))
 env["CFLAGS"] << " -fPIC"
 
-llvm_bin = Omnibus::Software.load(project, "llvm_bin")
+llvm_bin = Omnibus::Software.new(project, Omnibus.software_path("llvm_bin"), project.manifest)
+llvm_bin.evaluate_file(Omnibus.software_path("llvm_bin"))
 output_bin = "#{install_dir}/embedded/bin/crystal"
 env["PATH"] = "#{llvm_bin.project_dir}/bin:#{project_dir}/deps:#{env["PATH"]}"
 
@@ -27,7 +24,11 @@ else
 end
 
 build do
-  command "git checkout #{CRYSTAL_VERSION}", cwd: project_dir
+  command "git checkout #{version} --", cwd: project_dir
+
+  version "master" do
+    command "git pull"
+  end
 
   mkdir "#{project_dir}/deps"
   command "make llvm_ext", env: env
