@@ -12,6 +12,11 @@ function error_exit
   exit 1
 }
 
-rm -f /usr/bin/crystal /usr/bin/shards
+INSTALL_PATH=/usr
+if [ `uname` = "Darwin" -a `uname -r|cut -f1 -d.` -ge 15 ]; then
+	INSTALL_PATH=/usr/local
+fi
+
+rm -f ${INSTALL_PATH}/bin/crystal ${INSTALL_PATH}/bin/shards
 
 exit 0

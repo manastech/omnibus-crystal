@@ -12,7 +12,12 @@ function error_exit
   exit 1
 }
 
-ln -nfs /opt/crystal/bin/crystal /usr/bin/crystal
-ln -nfs /opt/crystal/embedded/bin/shards /usr/bin/shards
+INSTALL_PATH=/usr
+if [ `uname` = "Darwin" -a `uname -r|cut -f1 -d.` -ge 15 ]; then
+	INSTALL_PATH=/usr/local
+fi
+
+ln -nfs /opt/crystal/bin/crystal ${INSTALL_PATH}/bin/crystal
+ln -nfs /opt/crystal/embedded/bin/shards ${INSTALL_PATH}/bin/shards
 
 exit 0
