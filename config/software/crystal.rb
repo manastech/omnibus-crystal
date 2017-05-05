@@ -17,7 +17,7 @@ env = with_standard_compiler_flags(with_embedded_path(
 env["CFLAGS"] << " -fPIC"
 
 unless FIRST_RUN
-  llvm_bin = Omnibus::Software.load(project, "llvm_bin")
+  llvm_bin = Omnibus::Software.load(project, "llvm_bin", nil)
 end
 
 output_bin = "#{install_dir}/embedded/bin/crystal"
@@ -42,7 +42,7 @@ build do
   command "mkdir .build", env: env
   command "echo #{Dir.pwd}", env: env
   command "cp #{Dir.pwd}/crystal-#{ohai['os']}-#{ohai['kernel']['machine']} .build/crystal", env: env
-  command "bin/crystal build src/compiler/crystal.cr --release -o #{output_bin} -D without_openssl -D without_zlib", env: env
+  command "bin/crystal build src/compiler/crystal.cr --release#{" --no-debug" if _32_bit? } -o #{output_bin} -D without_openssl -D without_zlib", env: env
 
   block do
     raise "Could not build crystal" unless File.exists?(output_bin)
